@@ -1,5 +1,7 @@
+import os
 import random
 
+from imbroglione.settings import BASE_DIR
 
 class GameData:
     game_id = 0
@@ -18,10 +20,11 @@ class GameData:
         self.current_hint = "Cosa guardi?"
         
     def newRound(self):
-        self.current_word = f"that{self.current_round}"
-        self.current_hint = f"this{self.current_round}"
+        gm : GameManager = GameManager.get()
+        self.current_word, self.current_hint = gm._getWordAndHint()
         self.imbroglione = random.choice(self.getPlayers())
         self.current_round+=1
+        print(f"Round:{self.current_round} word:{self.current_word} imbroglione:{self.imbroglione} giocatori:{self.getPlayers()}")
         return self.current_round
         
     def getPlayers(self):
@@ -32,6 +35,17 @@ class GameManager:
     games = {}
     last_game = 0
     
+    def __init__(self) -> None:
+        with open(os.path.join(BASE_DIR, "parole-suggerimenti.txt"), "r", encoding="utf8") as f:
+            self.words = dict()
+            text = f.read().replace("\n","").split(";")
+            for ws in text:
+                self.words[ws.split("-")[0]] = ws.split("-")[1]
+    
+    def _getWordAndHint(self):
+        w = random.choice(list(self.words.keys()))
+        return w, self.words[w]
+            
     @staticmethod
     def get():
         if GameManager._Istance is None:

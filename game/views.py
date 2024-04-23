@@ -42,8 +42,6 @@ def play(request, game_id):#play with assigned role in game_id
     return render(request, "game/play.html", context)
 
 def newround(request):#join or create a game
-    print(type(request))
     game_id = int(request.GET.get('game_id', -1))
     gm : GameManager = GameManager.get()
-    print(game_id)
     return  HttpResponse(gm.newRound(game_id))
