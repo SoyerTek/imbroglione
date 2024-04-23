@@ -15,11 +15,12 @@
 			<div>
 				<div  class = "col-lg-7 mx-auto">
 					<h3 class="d-flex justify-content-center">Crea nuova partita</h3>
-					<form action="game.php">
+					<form action="join" method="get">
 						<div class="input-group mb-3">
-							<input type="text" class="form-control" placeholder="Nome utente" aria-label="Nome utente" aria-describedby="basic-addon2">
+							<input type="text" required id="name" name="name" class="form-control" placeholder="Nome utente" aria-label="Nome utente" aria-describedby="basic-addon2"/>
+							<input type="hidden" id="new" name="new" value="True"/>
 							<div class="input-group-append">
-								<button class="btn btn-outline-secondary" type="submit">Avvia</button>
+								<input type="submit" value="Submit" class="btn btn-outline-secondary">
 							</div>
 						</div>
 					</form>
@@ -27,10 +28,10 @@
 				<br>
 				<div class = "col-lg-7 mx-auto">
 					<h3 class="d-flex justify-content-center">Unisciti a una partita</h3>
-					<form action="game.php">
+					<form action="join">
 						<div class="input-group mb-3">
-							<input type="text" class="form-control" placeholder="Nome utente"/>
-							<input type="number" class="form-control" placeholder="Codice partita"/>
+							<input type="text" required class="form-control" name="name" placeholder="Nome utente"/>
+							<input type="number" required class="form-control" name="game_id" placeholder="Codice partita"/>
 							<div class="input-group-append">
 								<button class="btn btn-outline-secondary" type="submit">Unisciti</button>
 							</div>

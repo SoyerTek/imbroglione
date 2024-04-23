@@ -25,9 +25,9 @@
 
   <div class="container d-flex flex-column min-vh-100 justify-content-center align-items-center">
 
-    <h1>[{{ game_id }}] - #</h1>
+    <h1>Game {{ game_id }} - Round #{{ round }}</h1>
 
-	<p>username</p>
+	<p>{{ name }}</p>
 
 	<br>
 	{% if imbroglione %}
@@ -52,37 +52,10 @@
 
 	<div style="padding-top: 15px;">
 
-	  <button type="button" class="btn btn-success">Ricarica</button>
-
-	  <button type="button" class="btn btn-primary">Nuovo round</button>
-
-	</div>
-
-	<br>
-
-  </div>
-
-  <div class="container d-flex flex-column min-vh-100 justify-content-center align-items-center">
-
-    <h1>[CODICE] - #</h1>
-
-	<p>username</p>
-
-	<br>
-
-	<h4>Non sei tu l'ingannatore</h4>
-
-	<p>Parolona</p>
-
-	<button type="button" class="btn btn-warning">Sono scarso/a(e voglio barare)</button>
-
-	<br>
-
-	<div style="padding-top: 15px;">
-
-	  <button type="button" class="btn btn-success">Ricarica</button>
-
-	  <button type="button" class="btn btn-primary">Nuovo round</button>
+	  <button type="button" class="btn btn-success" onclick="location.reload()">Ricarica</button>
+	  {%if creator %}
+	  <button type="button" class="btn btn-primary" id="newRound">Nuovo round</button>
+	  {%endif%}
 
 	</div>
 
@@ -94,7 +67,7 @@
 
     <!-- jQuery first, then Popper.js, then Bootstrap JS -->
 
-    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+	<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 
     <script src="https://cdn.jsdelivr.net/npm/popper.js@1.14.7/dist/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
 
@@ -105,6 +78,27 @@
 		$("#scarso").on("click", function(){
 			$("#suggerimento").html("{{ suggestion }}");
 		});
+		$('#newRound').on("click",function() {
+			// Parameters to be sent
+			var params = {
+				game_id: '{{game_id}}'
+			};
+	
+			// Make the AJAX request
+			$.ajax({
+				url: '/game/newround',
+				type: 'GET',
+				data: params,
+				success: function(response) {
+					// Insert the retrieved HTML content into the 'content' div
+				},
+				error: function(xhr, status, error) {
+					// Handle errors
+					console.error(error);
+				}
+			});
+		});
+		
 
 	</script>
 
