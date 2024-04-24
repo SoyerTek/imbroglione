@@ -7,7 +7,12 @@ from game.data import GameManager
 
 def index(request):#join or create a game
     template = loader.get_template("game/index.html")
-    return HttpResponse(template.render())
+    game_id = request.GET.get('game_id', "")
+    context = {
+        "game_id": game_id,
+        "joining": game_id != ""
+    }
+    return render(request, "game/index.html", context)
 
 def joingame(request):#redirects after adding player to a game or creating a new game
     game_id = int(request.GET.get('game_id', -1))
@@ -19,13 +24,14 @@ def joingame(request):#redirects after adding player to a game or creating a new
     else:
         player = gm.joinGame(game_id, player)
     
-    response = redirect("play", game_id=game_id)
-    response["Location"] += f"?name={player}"
+    response = redirect("play")
+    response["Location"] += f"?game_id={game_id}&name={player}"
     return response
     #return HttpResponse(f"{'Creating' if new else 'Joining'} game {game_id} as {player} playing:{gm.getPlayers(game_id)}")
 
 
-def play(request, game_id):#play with assigned role in game_id
+def play(request):#play with assigned role in game_id
+    game_id = int(request.GET.get('game_id', -1))
     player = request.GET.get('name')
     if player is None:
         return HttpResponse("Missing arguments")
@@ -33,6 +39,7 @@ def play(request, game_id):#play with assigned role in game_id
     context = {
         "game_id": game_id,
         "name": player,
+        "players": ", ".join(gm.getPlayers(game_id)),
         "round": gm.getRound(game_id),
         "imbroglione": gm.getImbroglione(game_id) == player,
         "creator": gm.getCreatingPlayer(game_id) == player,

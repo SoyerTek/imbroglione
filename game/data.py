@@ -61,7 +61,7 @@ class GameManager:
         if game_id in self.games:
             game : GameData = self.games[game_id]
             player_name_ = player_name if ugly_duplicate == 0 else f"{player_name}{ugly_duplicate}"
-            if player_name_ not in game.player_list:
+            if player_name_ not in game.getPlayers():
                 game.player_list.append(player_name_)
                 return player_name_
             else:
