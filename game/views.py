@@ -18,7 +18,7 @@ def index(request):#join or create a game
 def joingame(request):#redirects after adding player to a game or creating a new game
     game_id = int(request.GET.get('game_id', -1))
     player : str = request.GET.get('name')
-    player = player.stip().lower().replace(" ", "_")
+    player = player.strip().lower().replace(" ", "_")
     new = game_id == -1
     gm : GameManager = GameManager.get()
     if new:
