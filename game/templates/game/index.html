@@ -13,6 +13,7 @@
 			<h1 class="d-flex justify-content-center">Imbroglione</h1>
 			<br>
 			<div>
+				{% if not joining %}
 				<div  class = "col-lg-7 mx-auto">
 					<h3 class="d-flex justify-content-center">Crea nuova partita</h3>
 					<form action="join" method="get">
@@ -25,6 +26,7 @@
 						</div>
 					</form>
 				</div>
+				{% endif %}
 				<br>
 				<div class = "col-lg-7 mx-auto">
 					<h3 class="d-flex justify-content-center">Unisciti a una partita</h3>
